@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1063937132239",
+    "project_id": "sante-focus-29c2f",
+    "storage_bucket": "sante-focus-29c2f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063937132239:android:e375a2c990592dc7c7d9ba",
+        "android_client_info": {
+          "package_name": "com.example.santefocus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvAhLP_BpYNSRwxm3O3W_vP7gzKoXc5ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

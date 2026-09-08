@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            font-family: 'Segoe UI',sans-serif;
+            background-color: skyblue;
+            display: flex;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+            align-items: center;
+            text-align: center;
+        }
+
+        @keyframes gradientMove{
+            0%{ background-position: 0% 50%}
+            50%{ background-position: 100% 50%}
+            100%{ background-position: 0% 50%}
+        }
+
+        .container {
+            max-width: 500px;
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeIn{
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to{
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 50px;
+            margin-bottom: 10px;
+            text-shadow: 0  0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5) ;
+        }
+
+        h1:hover {
+            transform: scale(1.05);
+            text-shadow:  0 0 20px white , 0 0 40px white;
+
+        }
+
+        p{
+            font-size: 20px;
+            opacity: 0.9;
+            animation: fadeText 3s ease;
+        }
+
+        @keyframes fadeText {
+            from{opacity: 0}
+            to {opacity: 0.9}
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>SantéFocus</h1>
+    <p>Bienvenus dans votre espace santé intelligent</p>
+
+    <div class="intro">
+        <h3>Introduction</h3>
+        <p>SantéFocus represente deux roles bien distincts.
+            d'ou le coté "Patient" et le coté "Médecin".
+        </p>
+    </div>
+
+    <div class="acceil">
+        <h3>Acceuil</h3>
+        <p>*Voici ce que représente l'accueil du coté "Patient".</p>
+        <img src="353763575" alt="">
+        <p>*Voici ce que représente l'accueil du coté "Médecin".</p>
+        <img src="353763575" alt="">
+    </div>
+</div>    
+</body>
+</html>
