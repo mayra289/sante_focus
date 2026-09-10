@@ -17,7 +17,8 @@ class PatientDashboard extends StatefulWidget {
   State<PatientDashboard> createState() => _PatientDashboardState();
 }
 
-class _PatientDashboardState extends State<PatientDashboard> with SingleTickerProviderStateMixin {
+class _PatientDashboardState extends State<PatientDashboard>
+    with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
   late AnimationController _controller;
   late List<Animation<double>> _staggeredAnimations;
@@ -54,22 +55,26 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
     return [
       _buildHomeContent(),
       const NotificationPage(),
-      const SettingsPage(),
+      const SettingsPage(isPatient: false),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: _getPages()[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         elevation: 10,
         backgroundColor: Theme.of(context).cardColor,
-        selectedItemColor: isDark ? Colors.blue.shade300 : const Color(0xFF0D47A1),
-        unselectedItemColor: isDark ? Colors.grey.shade500 : Colors.grey.shade400,
+        selectedItemColor: isDark
+            ? Colors.blue.shade300
+            : const Color(0xFF0D47A1),
+        unselectedItemColor: isDark
+            ? Colors.grey.shade500
+            : Colors.grey.shade400,
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
@@ -82,9 +87,18 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
           });
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard_rounded), label: "Accueil"),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications_none_rounded), label: "Alertes"),
-          BottomNavigationBarItem(icon: Icon(Icons.tune_rounded), label: "Paramètres"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard_rounded),
+            label: "Accueil",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications_none_rounded),
+            label: "Alertes",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.tune_rounded),
+            label: "Paramètres",
+          ),
         ],
       ),
     );
@@ -110,12 +124,16 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
                         Text(
                           "Mes Services Santé",
                           style: TextStyle(
-                            fontSize: 18, 
-                            fontWeight: FontWeight.bold, 
-                            color: Theme.of(context).textTheme.bodyLarge?.color
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                         ),
-                        Icon(Icons.grid_view_rounded, color: Colors.blueAccent.withOpacity(0.3), size: 20),
+                        Icon(
+                          Icons.grid_view_rounded,
+                          color: Colors.blueAccent.withOpacity(0.3),
+                          size: 20,
+                        ),
                       ],
                     ),
                   ),
@@ -128,14 +146,97 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
                     mainAxisSpacing: 18,
                     childAspectRatio: 1.1,
                     children: [
-                      _buildAnimatedMenuCard(0, "Dossier Médical", "assets/Acceuil/dossier.png", Colors.teal, () => Navigator.push(context, MaterialPageRoute(builder: (context) => const MedicalRecordPage()))),
-                      _buildAnimatedMenuCard(1, "Ordonnances", "assets/Acceuil/ordonnance.png", Colors.orangeAccent, () => Navigator.push(context, MaterialPageRoute(builder: (context) => const PrescriptionsPage()))),
-                      _buildAnimatedMenuCard(2, "Mes Médecins", "assets/Acceuil/medecin.png", Colors.blueGrey, () => Navigator.push(context, MaterialPageRoute(builder: (context) => const DoctorsPage()))),
-                      _buildAnimatedMenuCard(3, "Messages", "assets/Acceuil/message.png", Colors.blueAccent, null),
-                      _buildAnimatedMenuCard(4, "Vaccins", "assets/Acceuil/Vaccine.png", Colors.green, () => Navigator.push(context, MaterialPageRoute(builder: (context) => const VaccinePage()))),
-                      _buildAnimatedMenuCard(5, "Urgences", "assets/Acceuil/urgence.png", Colors.redAccent, () => Navigator.push(context, MaterialPageRoute(builder: (context) => const EmergencyPage()))),
-                      _buildAnimatedMenuCard(6, "Pharmacie", "assets/Acceuil/pharma.png", Colors.purpleAccent, () => Navigator.push(context, MaterialPageRoute(builder: (context) => const PharmacyPage()))),
-                      _buildAnimatedMenuCard(7, "Rendez Vous", "assets/Acceuil/rendez-vous.png", Colors.purpleAccent, () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AppointmentPage()))),
+                      _buildAnimatedMenuCard(
+                        0,
+                        "Dossier Médical",
+                        "assets/Acceuil/dossier.png",
+                        Colors.teal,
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MedicalRecordPage(),
+                          ),
+                        ),
+                      ),
+                      _buildAnimatedMenuCard(
+                        1,
+                        "Ordonnances",
+                        "assets/Acceuil/ordonnance.png",
+                        Colors.orangeAccent,
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PrescriptionsPage(),
+                          ),
+                        ),
+                      ),
+                      _buildAnimatedMenuCard(
+                        2,
+                        "Mes Médecins",
+                        "assets/Acceuil/medecin.png",
+                        Colors.blueGrey,
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const DoctorsPage(),
+                          ),
+                        ),
+                      ),
+                      _buildAnimatedMenuCard(
+                        3,
+                        "Messages",
+                        "assets/Acceuil/message.png",
+                        Colors.blueAccent,
+                        null,
+                      ),
+                      _buildAnimatedMenuCard(
+                        4,
+                        "Vaccins",
+                        "assets/Acceuil/Vaccine.png",
+                        Colors.green,
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const VaccinePage(),
+                          ),
+                        ),
+                      ),
+                      _buildAnimatedMenuCard(
+                        5,
+                        "Urgences",
+                        "assets/Acceuil/urgence.png",
+                        Colors.redAccent,
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EmergencyPage(),
+                          ),
+                        ),
+                      ),
+                      _buildAnimatedMenuCard(
+                        6,
+                        "Pharmacie",
+                        "assets/Acceuil/pharma.png",
+                        Colors.purpleAccent,
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PharmacyPage(),
+                          ),
+                        ),
+                      ),
+                      _buildAnimatedMenuCard(
+                        7,
+                        "Rendez Vous",
+                        "assets/Acceuil/rendez-vous.png",
+                        Colors.purpleAccent,
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AppointmentPage(),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 30),
@@ -148,9 +249,15 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
     );
   }
 
-  Widget _buildAnimatedMenuCard(int index, String title, String imagePath, Color color, VoidCallback? onTap) {
+  Widget _buildAnimatedMenuCard(
+    int index,
+    String title,
+    String imagePath,
+    Color color,
+    VoidCallback? onTap,
+  ) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return AnimatedBuilder(
       animation: _staggeredAnimations[index],
       builder: (context, child) {
@@ -168,9 +275,9 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: isDark ? Colors.black26 : color.withOpacity(0.05), 
-              blurRadius: 10, 
-              offset: const Offset(0, 4)
+              color: isDark ? Colors.black26 : color.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -192,7 +299,8 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
                     imagePath,
                     height: 35,
                     width: 35,
-                    errorBuilder: (context, error, stackTrace) => Icon(Icons.medical_services, color: color, size: 28),
+                    errorBuilder: (context, error, stackTrace) =>
+                        Icon(Icons.medical_services, color: color, size: 28),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -200,9 +308,9 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
                   title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontWeight: FontWeight.w600, 
-                    fontSize: 12, 
-                    color: Theme.of(context).textTheme.bodyMedium?.color
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
                   ),
                 ),
               ],
@@ -215,21 +323,23 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
 
   Widget _buildAnimatedHeader() {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
         return Transform.translate(
           offset: Offset(0, -20 * (1 - _controller.value)),
-          child: Opacity(
-            opacity: _controller.value,
-            child: child,
-          ),
+          child: Opacity(opacity: _controller.value, child: child),
         );
       },
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.only(top: 35, left: 24, right: 24, bottom: 20),
+        padding: const EdgeInsets.only(
+          top: 35,
+          left: 24,
+          right: 24,
+          bottom: 20,
+        ),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: const BorderRadius.only(
@@ -238,9 +348,9 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
           ),
           boxShadow: [
             BoxShadow(
-              color: isDark ? Colors.black26 : Colors.black12, 
-              blurRadius: 10, 
-              offset: const Offset(0, 4)
+              color: isDark ? Colors.black26 : Colors.black12,
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -249,8 +359,28 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset('assets/logo_ispm.png', height: 40, width: 40, fit: BoxFit.contain, errorBuilder: (c, e, s) => const Icon(Icons.health_and_safety, color: Colors.blueAccent, size: 30)),
-                Image.asset('assets/received_1527607458340717.jpeg', height: 40, width: 40, fit: BoxFit.contain, errorBuilder: (c, e, s) => const Icon(Icons.medical_services, color: Colors.blueAccent, size: 30)),
+                Image.asset(
+                  'assets/logo_ispm.png',
+                  height: 40,
+                  width: 40,
+                  fit: BoxFit.contain,
+                  errorBuilder: (c, e, s) => const Icon(
+                    Icons.health_and_safety,
+                    color: Colors.blueAccent,
+                    size: 30,
+                  ),
+                ),
+                Image.asset(
+                  'assets/received_1527607458340717.jpeg',
+                  height: 40,
+                  width: 40,
+                  fit: BoxFit.contain,
+                  errorBuilder: (c, e, s) => const Icon(
+                    Icons.medical_services,
+                    color: Colors.blueAccent,
+                    size: 30,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 15),
@@ -258,7 +388,12 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfilePage(),
+                      ),
+                    );
                   },
                   child: _buildAvatarBadge(),
                 ),
@@ -268,12 +403,17 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
                   children: [
                     Text(
                       "Bonjour 👋",
-                      style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color, fontSize: 14),
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodySmall?.color,
+                        fontSize: 14,
+                      ),
                     ),
                     Text(
                       "Patient SanteFocus",
                       style: TextStyle(
-                        color: isDark ? Colors.blue.shade300 : const Color(0xFF0D47A1),
+                        color: isDark
+                            ? Colors.blue.shade300
+                            : const Color(0xFF0D47A1),
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
@@ -298,7 +438,11 @@ class _PatientDashboardState extends State<PatientDashboard> with SingleTickerPr
       child: CircleAvatar(
         radius: 24,
         backgroundColor: Colors.blue.withOpacity(0.1),
-        child: Icon(Icons.person_rounded, color: Colors.blue.shade700, size: 26),
+        child: Icon(
+          Icons.person_rounded,
+          color: Colors.blue.shade700,
+          size: 26,
+        ),
       ),
     );
   }

@@ -4,7 +4,8 @@ class DoctorPrescriptionsPage extends StatefulWidget {
   const DoctorPrescriptionsPage({super.key});
 
   @override
-  State<DoctorPrescriptionsPage> createState() => _DoctorPrescriptionsPageState();
+  State<DoctorPrescriptionsPage> createState() =>
+      _DoctorPrescriptionsPageState();
 }
 
 class _DoctorPrescriptionsPageState extends State<DoctorPrescriptionsPage> {
@@ -27,16 +28,28 @@ class _DoctorPrescriptionsPageState extends State<DoctorPrescriptionsPage> {
 
   void _showSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), duration: const Duration(seconds: 2), behavior: SnackBarBehavior.floating),
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+      ),
     );
   }
 
   void _showPrescriptionDialog({int? index}) {
     final bool isEditing = index != null;
-    final nameController = TextEditingController(text: isEditing ? _prescriptions[index]['patient'] : "");
-    final medController = TextEditingController(text: isEditing ? _prescriptions[index]['medicines'].join(', ') : "");
-    final adviceController = TextEditingController(text: isEditing ? (_prescriptions[index]['advice'] ?? "") : "");
-    String statusValue = isEditing ? _prescriptions[index]['status'] : "En attente";
+    final nameController = TextEditingController(
+      text: isEditing ? _prescriptions[index]['patient'] : "",
+    );
+    final medController = TextEditingController(
+      text: isEditing ? _prescriptions[index]['medicines'].join(', ') : "",
+    );
+    final adviceController = TextEditingController(
+      text: isEditing ? (_prescriptions[index]['advice'] ?? "") : "",
+    );
+    String statusValue = isEditing
+        ? _prescriptions[index]['status']
+        : "En attente";
 
     showDialog(
       context: context,
@@ -53,17 +66,27 @@ class _DoctorPrescriptionsPageState extends State<DoctorPrescriptionsPage> {
               children: [
                 TextField(
                   controller: nameController,
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
-                  decoration: const InputDecoration(labelText: "Nom du Patient"),
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                  decoration: const InputDecoration(
+                    labelText: "Nom du Patient",
+                  ),
                 ),
                 TextField(
                   controller: medController,
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
-                  decoration: const InputDecoration(labelText: "Médicaments (virgules)"),
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                  decoration: const InputDecoration(
+                    labelText: "Médicaments (virgules)",
+                  ),
                 ),
                 TextField(
                   controller: adviceController,
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
                   decoration: const InputDecoration(labelText: "Conseils"),
                   maxLines: 2,
                 ),
@@ -71,24 +94,37 @@ class _DoctorPrescriptionsPageState extends State<DoctorPrescriptionsPage> {
                 DropdownButtonFormField<String>(
                   value: statusValue,
                   dropdownColor: Theme.of(context).cardColor,
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
                   decoration: const InputDecoration(labelText: "Statut"),
-                  items: ["En attente", "Délivré"].map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
+                  items: ["En attente", "Délivré"]
+                      .map((s) => DropdownMenuItem(value: s, child: Text(s)))
+                      .toList(),
                   onChanged: (val) => setDialogState(() => statusValue = val!),
                 ),
               ],
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text("Annuler")),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Annuler"),
+            ),
             ElevatedButton(
               onPressed: () {
-                if (nameController.text.isNotEmpty && medController.text.isNotEmpty) {
+                if (nameController.text.isNotEmpty &&
+                    medController.text.isNotEmpty) {
                   setState(() {
                     final data = {
                       "patient": nameController.text,
-                      "date": isEditing ? _prescriptions[index]['date'] : "Aujourd'hui",
-                      "medicines": medController.text.split(',').map((e) => e.trim()).toList(),
+                      "date": isEditing
+                          ? _prescriptions[index]['date']
+                          : "Aujourd'hui",
+                      "medicines": medController.text
+                          .split(',')
+                          .map((e) => e.trim())
+                          .toList(),
                       "advice": adviceController.text,
                       "status": statusValue,
                     };
@@ -99,11 +135,18 @@ class _DoctorPrescriptionsPageState extends State<DoctorPrescriptionsPage> {
                     }
                   });
                   Navigator.pop(context);
-                  _showSnackbar(isEditing ? "Ordonnance mise à jour" : "Ordonnance ajoutée");
+                  _showSnackbar(
+                    isEditing ? "Ordonnance mise à jour" : "Ordonnance ajoutée",
+                  );
                 }
               },
-              style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary),
-              child: Text(isEditing ? "Enregistrer" : "Ajouter", style: const TextStyle(color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+              ),
+              child: Text(
+                isEditing ? "Enregistrer" : "Ajouter",
+                style: const TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -118,13 +161,23 @@ class _DoctorPrescriptionsPageState extends State<DoctorPrescriptionsPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text("Gestion des Ordonnances", style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          "Gestion des Ordonnances",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Theme.of(context).cardColor,
         foregroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0.5,
       ),
       body: _prescriptions.isEmpty
-          ? Center(child: Text("Aucune ordonnance", style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color)))
+          ? Center(
+              child: Text(
+                "Aucune ordonnance",
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodySmall?.color,
+                ),
+              ),
+            )
           : ListView.builder(
               padding: const EdgeInsets.all(20),
               itemCount: _prescriptions.length,
@@ -138,9 +191,11 @@ class _DoctorPrescriptionsPageState extends State<DoctorPrescriptionsPage> {
                     borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.05), 
-                        blurRadius: 5
-                      )
+                        color: Colors.black.withValues(
+                          alpha: isDark ? 0.2 : 0.05,
+                        ),
+                        blurRadius: 5,
+                      ),
                     ],
                   ),
                   child: Column(
@@ -150,26 +205,44 @@ class _DoctorPrescriptionsPageState extends State<DoctorPrescriptionsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            ordo['patient'], 
+                            ordo['patient'],
                             style: TextStyle(
-                              fontWeight: FontWeight.bold, 
+                              fontWeight: FontWeight.bold,
                               fontSize: 16,
-                              color: Theme.of(context).textTheme.bodyLarge?.color
-                            )
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyLarge?.color,
+                            ),
                           ),
-                          Text(ordo['date'], style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color, fontSize: 12)),
+                          Text(
+                            ordo['date'],
+                            style: TextStyle(
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodySmall?.color,
+                              fontSize: 12,
+                            ),
+                          ),
                         ],
                       ),
                       const Divider(height: 20),
                       Text(
-                        "Médicaments: ${ordo['medicines'].join(', ')}", 
-                        style: TextStyle(fontSize: 13, color: Theme.of(context).textTheme.bodyMedium?.color)
+                        "Médicaments: ${ordo['medicines'].join(', ')}",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                        ),
                       ),
-                      if (ordo['advice'] != null && ordo['advice'].toString().isNotEmpty) ...[
+                      if (ordo['advice'] != null &&
+                          ordo['advice'].toString().isNotEmpty) ...[
                         const SizedBox(height: 8),
                         Text(
                           "Conseils: ${ordo['advice']}",
-                          style: const TextStyle(fontSize: 12, color: Colors.blueGrey, fontStyle: FontStyle.italic),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.blueGrey,
+                            fontStyle: FontStyle.italic,
+                          ),
                         ),
                       ],
                       const SizedBox(height: 10),
@@ -180,15 +253,30 @@ class _DoctorPrescriptionsPageState extends State<DoctorPrescriptionsPage> {
                           Row(
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.edit, size: 20, color: Colors.blue),
-                                onPressed: () => _showPrescriptionDialog(index: index),
+                                icon: const Icon(
+                                  Icons.edit,
+                                  size: 20,
+                                  color: Colors.blue,
+                                ),
+                                onPressed: () =>
+                                    _showPrescriptionDialog(index: index),
                               ),
                               IconButton(
-                                icon: Icon(Icons.print, size: 20, color: isDark ? Colors.grey : Colors.blueGrey),
-                                onPressed: () => _showSnackbar("Impression de l'ordonnance de ${ordo['patient']}..."),
+                                icon: Icon(
+                                  Icons.print,
+                                  size: 20,
+                                  color: isDark ? Colors.grey : Colors.blueGrey,
+                                ),
+                                onPressed: () => _showSnackbar(
+                                  "Impression de l'ordonnance de ${ordo['patient']}...",
+                                ),
                               ),
                               IconButton(
-                                icon: const Icon(Icons.delete_outline, size: 20, color: Colors.red),
+                                icon: const Icon(
+                                  Icons.delete_outline,
+                                  size: 20,
+                                  color: Colors.red,
+                                ),
                                 onPressed: () {
                                   setState(() {
                                     _prescriptions.removeAt(index);
@@ -199,7 +287,7 @@ class _DoctorPrescriptionsPageState extends State<DoctorPrescriptionsPage> {
                             ],
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 );
@@ -217,8 +305,18 @@ class _DoctorPrescriptionsPageState extends State<DoctorPrescriptionsPage> {
     Color color = status == "Délivré" ? Colors.green : Colors.orange;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
-      child: Text(status, style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.bold)),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        status,
+        style: TextStyle(
+          color: color,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }

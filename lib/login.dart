@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'acceuil_pat.dart';
 import 'medecin/accueil_med.dart';
 import 'patient/Creation_compte.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart'; //l'authentifictaion
+import 'medecin/creation_compte_med.dart';
 
 class LoginPage extends StatefulWidget {
   final bool isPatient;
@@ -73,11 +75,34 @@ class _LoginPageState extends State<LoginPage>
             (route) => false,
           );
         } else {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const DoctorDashboard()),
-            (route) => false,
-          );
+          //attendre la réponse de l'admi avant de pouvoir se connecter
+          // Connexion médecin : vérifier la validation admin
+          final doc = await FirebaseFirestore.instance
+              .collection('medecins')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .get();
+          final valide = doc.data()?['valide'] ?? false;
+
+          if (!mounted) return;
+
+          if (valide == true) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const DoctorDashboard()),
+              (route) => false,
+            );
+          } else {
+            await FirebaseAuth.instance
+                .signOut(); // on déconnecte, il n'a pas encore accès
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  "Votre compte est en attente de validation par l'administrateur.",
+                ),
+                backgroundColor: Colors.orange,
+              ),
+            );
+          }
         }
       } on FirebaseAuthException catch (e) {
         if (!mounted) return;
@@ -261,36 +286,38 @@ class _LoginPageState extends State<LoginPage>
                   children: [
                     _buildSubmitButton(),
                     const SizedBox(height: 30),
-                    if (isPatient)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Nouveau sur SanteFocus ?",
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const RegistrationPage(),
-                                ),
-                              );
-                            },
-                            child: Text(
-                              "Créer un compte",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: isDark
-                                    ? Colors.blue.shade300
-                                    : Colors.blueAccent,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          isPatient
+                              ? "Nouveau sur SanteFocus ?"
+                              : "Nouveau médecin ?",
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => isPatient
+                                    ? const RegistrationPage()
+                                    : const RegistrationMedecinPage(),
                               ),
+                            );
+                          },
+                          child: Text(
+                            "Créer un compte",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: isDark
+                                  ? Colors.blue.shade300
+                                  : Colors.blueAccent,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

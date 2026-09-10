@@ -358,7 +358,7 @@ class _DoctorsPageState extends State<DoctorsPage> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => Container(
+      builder: (sheetContext) => Container(
         height: MediaQuery.of(context).size.height * 0.6,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
@@ -431,8 +431,14 @@ class _DoctorsPageState extends State<DoctorsPage> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.pop(context); // ferme le bottom sheet
-                  _demarrerConversation(context, doc["id"], doc["name"]);
+                  Navigator.pop(
+                    sheetContext,
+                  ); // ← "sheetContext" au lieu de "context"
+                  _demarrerConversation(
+                    context,
+                    doc["id"],
+                    doc["name"],
+                  ); // ← celui-ci reste "context" (l'original, toujours valide)
                 },
                 icon: const Icon(Icons.chat_bubble_outline_rounded),
                 label: const Text("Contacter ce médecin"),
